@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import { userRoutes } from '../modules/user';
 import { authRoutes } from '../modules/auth';
 import validAuthentication from '../middlewares/validAuthentication';
+import serverErrorManager from '../utils/exeptions/server-errors.exeption';
 
 const app = express();
 
@@ -40,5 +41,8 @@ app.use(validAuthentication());
 
 // Routes
 app.use('/user', userRoutes);
+
+// Errors
+app.use(serverErrorManager);
 
 export default app;

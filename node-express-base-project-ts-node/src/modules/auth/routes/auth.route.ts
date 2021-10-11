@@ -1,8 +1,10 @@
 import express from 'express';
+import { validate } from 'express-validation';
+import { loginValidation } from '../dto/login.dto';
 import authController from '../controllers/auth.controller';
 
 const router = express.Router();
 
-router.post('/login', authController.login);
+router.post('/login', validate(loginValidation, {}, {}), authController.login);
 
 export default router;

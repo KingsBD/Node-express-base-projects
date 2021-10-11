@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services/user.service';
 import {
   traceError,
@@ -15,7 +15,7 @@ export class UserController {
     this.userService = new UserService();
   }
 
-  searchUser = async (req: Request, res: Response) => {
+  searchUser = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('searchUser', logId);
@@ -25,11 +25,11 @@ export class UserController {
       res.status(200).json(result);
     } catch (error: any) {
       traceError('searchUser', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 
-  getUser = async (req: Request, res: Response) => {
+  getUser = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('getUser', logId);
@@ -39,11 +39,11 @@ export class UserController {
       res.status(200).json(result);
     } catch (error: any) {
       traceError('getUser', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 
-  getUsers = async (req: Request, res: Response) => {
+  getUsers = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('getUsers', logId);
@@ -52,11 +52,11 @@ export class UserController {
       res.status(200).json(result);
     } catch (error: any) {
       traceError('getUsers', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 
-  createUser = async (req: Request, res: Response) => {
+  createUser = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('createUser', logId);
@@ -66,11 +66,11 @@ export class UserController {
       res.status(200).json(obUser);
     } catch (error: any) {
       traceError('createUser', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 
-  updateUser = async (req: Request, res: Response) => {
+  updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('updateUser', logId);
@@ -81,11 +81,11 @@ export class UserController {
       res.status(200).json(user);
     } catch (error: any) {
       traceError('updateUser', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 
-  deleteUser = async (req: Request, res: Response) => {
+  deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     const logId = getLogId();
     try {
       traceBegin('deleteUser', logId);
@@ -95,7 +95,7 @@ export class UserController {
       res.status(200).json({ meesage: 'SUCESS' });
     } catch (error: any) {
       traceError('deleteUser', error, logId);
-      res.status(500).json({ error: error.message });
+      next(error);
     }
   };
 }
