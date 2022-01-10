@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services/user.service';
+import { User } from '../types/user.types';
 import {
   traceError,
   traceBegin,
@@ -20,7 +21,8 @@ export class UserController {
     try {
       traceBegin('searchUser', logId);
       traceFilter('searchUser', req.query, logId);
-      const result = await this.userService.searchUser(req.query?.filter);
+      const userFilter = req.query?.filter;
+      const result = await this.userService.searchUser(userFilter as User);
       traceEnd('searchUser', logId);
       res.status(200).json(result);
     } catch (error: any) {

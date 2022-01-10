@@ -1,52 +1,46 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { Schema } from 'mongoose';
 import UserSchema from '../model/user.schema';
+import { User } from '../types/user.types';
 
 class UserDao {
-  userSchema: any;
+  userSchema: Schema;
 
   constructor() {
     this.userSchema = UserSchema;
   }
 
-  validEmail = async (user: { _id?: any; email?: any }) => {
+  validEmail = async (user: { _id?: string; email?: string }) => {
     const { email } = user;
     const dbUser = await this.searchUser({ email });
     if (
       // eslint-disable-next-line no-underscore-dangle
-      (user?._id && dbUser._id.toString() !== user._id.toString()) ||
+      (user?._id &&
+        // eslint-disable-next-line no-underscore-dangle
+        dbUser?._id &&
+        // eslint-disable-next-line no-underscore-dangle
+        dbUser?._id.toString() !== user._id.toString()) ||
       // eslint-disable-next-line no-underscore-dangle
       (!user?._id && dbUser)
     )
       throw new Error('There is already a registered user with this email.');
   };
 
-  searchUser = (filter: any) => this.userSchema.findOne(filter);
+  searchUser = (filter: User): Promise<User> => this.userSchema.findOne(filter);
 
-  getUser = (id: any) => this.userSchema.findOne({ _id: id });
+  getUser = (id: string): Promise<any> => this.userSchema.findOne({ _id: id });
 
-  getUsers = () => this.userSchema.find();
+  getUsers = (): Promise<User[]> => this.userSchema.find();
 
-  createUser = async (newUser: any) => {
+  createUser = async (newUser: User): Promise<User> => {
     await this.validEmail(newUser);
     const obUser = new UserSchema(newUser);
     await obUser.save();
     return obUser;
   };
 
-  updateUser = async (
-    obUser: {
-      firstName: string;
-      middleName: string;
-      lastName: string;
-      email: string;
-      secundaryEmail: string;
-      phoneNumber: string;
-      secundaryPhoneNumber: string;
-      homeAddress: string;
-      city: string;
-      password: string;
-    },
-    id: string,
-  ) => {
+  updateUser = async (obUser: User, id: string): Promise<User> => {
     const user = await this.getUser(id);
     if (!user) throw new Error('There is not a registered user with this id.');
     user.firstName = obUser.firstName;
@@ -65,7 +59,8 @@ class UserDao {
     return user;
   };
 
-  deleteUser = (id: any) => this.userSchema.deleteOne({ _id: id });
+  deleteUser = (id: string): Promise<void> =>
+    this.userSchema.deleteOne({ _id: id });
 }
 
 export { UserDao };

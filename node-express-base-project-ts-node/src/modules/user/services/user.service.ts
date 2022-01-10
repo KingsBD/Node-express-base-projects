@@ -1,3 +1,4 @@
+import { User } from '../types/user.types';
 import { UserDao } from '../dao/user.dao';
 import ServiceError from '../../../utils/exeptions/services-error.exeption';
 import * as UserExceptions from '../exceptions/user.exceptions.json';
@@ -9,7 +10,7 @@ class UserService {
     this.userDao = new UserDao();
   }
 
-  async searchUser(filter: any) {
+  async searchUser(filter: User): Promise<any> {
     try {
       const result = await this.userDao.searchUser(filter);
       return result;
@@ -22,7 +23,7 @@ class UserService {
     }
   }
 
-  async getUser(id: string) {
+  async getUser(id: string): Promise<User> {
     try {
       const result = await this.userDao.getUser(id);
       return result;
@@ -35,7 +36,7 @@ class UserService {
     }
   }
 
-  async getUsers() {
+  async getUsers(): Promise<User[]> {
     try {
       const result = await this.userDao.getUsers();
       return result;
@@ -48,7 +49,7 @@ class UserService {
     }
   }
 
-  async createUser(newUser: string) {
+  async createUser(newUser: User): Promise<User> {
     try {
       const obUser = await this.userDao.createUser(newUser);
       return obUser;
@@ -61,21 +62,7 @@ class UserService {
     }
   }
 
-  async updateUser(
-    obUser: {
-      firstName: string;
-      middleName: string;
-      lastName: string;
-      email: string;
-      secundaryEmail: string;
-      phoneNumber: string;
-      secundaryPhoneNumber: string;
-      homeAddress: string;
-      city: string;
-      password: string;
-    },
-    id: string,
-  ) {
+  async updateUser(obUser: User, id: string): Promise<User> {
     try {
       const user = await this.userDao.updateUser(obUser, id);
       return user;
@@ -88,7 +75,7 @@ class UserService {
     }
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: string): Promise<void> {
     try {
       await this.userDao.deleteUser(id);
     } catch (error: any) {
