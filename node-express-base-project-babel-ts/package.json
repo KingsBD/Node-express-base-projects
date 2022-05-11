@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@babel/register": "^7.17.7",
     "app-root-path": "^3.0.0",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
@@ -55,9 +56,10 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "start": "node index.js",
-    "start:dev": "nodemon index.js",
-    "build": "babel src --out-dir build --copy-files --extensions '.ts,.js'",
+    "start": "babel-node --extensions \".ts,.js\" src/index.js",
+    "start:dev": "nodemon  --watch src/ --exec npm start -e ts",
+    "start:prod": "node build/index.js",
+    "build": "babel src -d build --ignore=\"./src/**/*.spec.ts\" --extensions \".ts,.js\"",
     "babel-version": "babel --version",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

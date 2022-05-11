@@ -9,11 +9,10 @@
     // Ensure that .d.ts files are created by tsc, but not .js files
     "declaration": true,
     "skipLibCheck": true,
+    "emitDeclarationOnly": true,
     // Ensure that Babel can safely transpile files in the TypeScript project
-    "isolatedModules": true
-  },
-  "include": [
-    "src",
-    "index.js"
-  ]
+    "isolatedModules": true,
+    "noEmit": true,
+    "outDir": "./build",
+  }
 }
