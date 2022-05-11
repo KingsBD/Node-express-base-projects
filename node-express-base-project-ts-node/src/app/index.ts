@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 
 app.use('/auth', authRoutes);
 
-app.use(validAuthentication);
+app.use(validAuthentication());
 
 // Routes
 app.use('/user', userRoutes);

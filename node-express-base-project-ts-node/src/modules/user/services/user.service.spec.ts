@@ -19,7 +19,7 @@ describe('UsersService', () => {
   });
 
   it('should mock searchUser', async () => {
-    mocked(service.userDao).searchUser.mockImplementationOnce(() => 'test');
+    mocked(service.userDao).searchUser.mockResolvedValue({ email: 'test' });
     expect(await service.searchUser({ id: '1' })).toBe('test');
   });
 });

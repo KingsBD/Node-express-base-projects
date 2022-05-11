@@ -23,8 +23,8 @@ const verifyToken = (sbToken: string) => {
 const generateToken = () => {
   try {
     /*
-			====================   JWT Signing =====================
-		*/
+      ====================   JWT Signing =====================
+    */
     const sbPrivateKey = JSON.parse(`"${process.env.TOKEN_PRIVATE_KEY}"`);
     /* Payload */
     const obPayload = {
